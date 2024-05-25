@@ -49,8 +49,26 @@ def fetch_detailed_responses(ids):
         merchant_info = response.json().get("merchant", {})
 
         name = merchant_info.get("name")
+        menu = merchant_info.get("menu")
+        categories = menu.get("categories")
+        # List to hold all food items
+        food_items = []
+        # Iterate through each category
+        for category in categories:
+            items = category.get("items", [])
+            
+            # Iterate through each item in the category
+            for item in items:
+                food_item = {
+                    "name": item.get("name"),
+                    "priceInMinorUnit": item.get("priceInMinorUnit"),
+                    "imgHref": item.get("imgHref")
+                }
+                food_items.append(food_item)
+        filtered_food_items = [food for food in food_items if sys.argv[1].lower() in food["name"].lower()]
+
         cuisine = merchant_info.get("cuisine")
-        all_data.append({"ID": merchant_id, "Details": {"Name": name, "Cuisine": cuisine}})
+        all_data.append({"ID": merchant_id, "Details": {"Name": name, "Cuisine": cuisine, "Food":filtered_food_items}})
         count = count + 1
         time.sleep(1)
     return all_data
