@@ -2,13 +2,7 @@
 
 import React, { useState } from 'react';
 import OrderCard from './OrderCard';
-
-interface Order {
-  id: number;
-  image: string;
-  title: string;
-  href: string;
-}
+import { useGlobalStore } from '../../globals';
 
 const orders = [
   { id: 1, 
@@ -23,6 +17,7 @@ const orders = [
 
 const OrderList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const { grabPriceTotal, fairPriceTotal } = useGlobalStore();
 
   const toggleSelect = (id: number) => {
     setSelectedIds((prevSelectedIds) =>
@@ -42,6 +37,7 @@ const OrderList: React.FC = () => {
           href={order.href}
           selected={selectedIds.includes(order.id)}
           onSelect={() => toggleSelect(order.id)}
+          priceTotal={order.id === 1 ? grabPriceTotal : order.id === 2 ? fairPriceTotal : undefined}
         />
       ))}
     </div>

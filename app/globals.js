@@ -6,8 +6,10 @@ export const useGlobalStore = create((set) => ({
   selectedDate: -1,
   daysBudgetArray: new Array(31).fill(0.0),
   fairPriceTotal: 0.0,
+  grabPriceTotal: 0.0,
 
   setinputFoodName: (value) => set({ inputFoodName: value }),
+  setGrabPriceTotal: (value) => set({ inputFoodName: value }),
   setFairPriceTotal: (value) => set({ fairPriceTotal: value }),
   setDailyBudget: (value) => set({ dailyBudget: value }),
   setSelectedDate: (value) => set({ selectedDate: value }),
