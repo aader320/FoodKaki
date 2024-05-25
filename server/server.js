@@ -26,7 +26,7 @@ app.post('/api/submit', (req, res) => {
     const { data } = req.body;  // Search query received from client
     console.log("Received data:", data);
 
-    const scriptPath = 'all.py';
+    const scriptPath = 'GrabQuery.py';
     exec(`python3 ${scriptPath} "${data}"`, (error, stdout, stderr) => {
         if (error) {
             console.error(`exec error: ${error}`);
