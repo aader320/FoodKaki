@@ -28,7 +28,7 @@ const TextBoxWithButton: React.FC = () => {
         onChange={handleInputChange}
         className="input input-bordered w-full"
       />
-      <button onClick={handleButtonClick} className="btn btn-primary ml-2">Enter</button>
+      <button onClick={handleButtonClick} className="btn bg-customGreen-100 ml-2">Enter</button>
     </div>
   );
 };

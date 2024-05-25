@@ -17,7 +17,8 @@ const orders = [
 
 const OrderList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const { grabPriceTotal, fairPriceTotal } = useGlobalStore();
+  const { fairPriceTotal } = useGlobalStore();
+  const { grabPriceTotal1  } = useGlobalStore();
 
   const toggleSelect = (id: number) => {
     setSelectedIds((prevSelectedIds) =>
@@ -26,7 +27,7 @@ const OrderList: React.FC = () => {
         : [...prevSelectedIds, id]
     );
   };
-
+  console.log("grab price: " + grabPriceTotal1);
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
       {orders.map((order) => (
@@ -37,7 +38,7 @@ const OrderList: React.FC = () => {
           href={order.href}
           selected={selectedIds.includes(order.id)}
           onSelect={() => toggleSelect(order.id)}
-          priceTotal={order.id === 1 ? grabPriceTotal : order.id === 2 ? fairPriceTotal : undefined}
+          priceTotal={order.id === 1 ? grabPriceTotal1 : order.id === 2 ? fairPriceTotal : undefined}
         />
       ))}
     </div>
