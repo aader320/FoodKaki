@@ -1,6 +1,8 @@
 "use client";
 
 import React from 'react';
+import FooterTheme from '../components/FooterTheme';
+import BackHeader from '../components/BackHeader';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import GrabOrderList from '../components/GrabOrder/GrabOrderList';
