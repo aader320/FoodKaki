@@ -1,10 +1,26 @@
 const express = require('express');
 const cors = require('cors');
 const { exec } = require('child_process');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
+const genAI = new GoogleGenerativeAI("AIzaSyD1CfDsa3D9YH-ksmwzPkl-RS0zZi-1VQs");
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
 const app = express();
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json());
+
+async function GeminiPrompt(prompt) {
+    try{
+        // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+        console.log(text);
+    }
+    catch(error) {
+        console.error("Error Generating Gemini Content: ", error);
+    }
+  }
 
 app.post('/api/submit', (req, res) => {
     const { data } = req.body;  // Search query received from client
@@ -57,6 +73,8 @@ app.post('/api/submit1', (req, res) => {
     });
     console.log("Success")
 });
+
+GeminiPrompt("Output nothing else except the json data. List me the ingredients in json format needed to make" + "nasi lemak");
 
 const PORT = 3001;
 app.listen(PORT, () => {
