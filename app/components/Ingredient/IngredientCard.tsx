@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface IngredientCardProps {
@@ -27,4 +26,3 @@ const IngredientCard: React.FC<IngredientCardProps> = ({ image, name, price, sel
 };
 
 export default IngredientCard;
-
