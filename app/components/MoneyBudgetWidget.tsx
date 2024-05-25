@@ -1,15 +1,19 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useGlobalStore } from "../globals"; // Use global store
+
 
 const MoneyBudgetWidget: React.FC = () => {
   const [budget, setBudget] = useState<number>(500);
   const [expenses, setExpenses] = useState<number>(0);
   const [expenseInput, setExpenseInput] = useState<number | undefined>();
+  const { setDailyBudget, setDaysArrayAddition, selectedDate } = useGlobalStore();
+  const [dailyBudget, setDailyBudgetCalculated] = useState<number>(0);
 
   const handleBudgetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBudget(Number(e.target.value));
   };
-
+  
   const handleExpenseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setExpenseInput(Number(e.target.value));
   };
@@ -18,10 +22,21 @@ const MoneyBudgetWidget: React.FC = () => {
     if (expenseInput) {
       setExpenses(expenses + expenseInput);
       setExpenseInput(undefined);
+      setDaysArrayAddition(selectedDate, expenseInput);
     }
   };
 
   const remainingBudget = budget - expenses;
+  useEffect(() => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    const nextMonthFirstDay = new Date(year, month, 0);
+    const calculatedDailyBudget = budget / nextMonthFirstDay.getDate();
+
+    setDailyBudgetCalculated(calculatedDailyBudget);
+    setDailyBudget(calculatedDailyBudget);
+  }, [budget, setDailyBudget]);
 
   return (
     <div className="border rounded shadow p-4">

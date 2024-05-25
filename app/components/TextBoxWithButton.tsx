@@ -10,7 +10,7 @@ const TextBoxWithButton: React.FC = () => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setinputFoodName(event.target.value);
-    console.log(inputFoodName)
+    //console.log(inputFoodName)
   };
 
   const handleButtonClick = () => {
