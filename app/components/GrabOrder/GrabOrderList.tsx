@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import GrabOrderCard from './GrabOrderCard';
+import {useGlobalStore} from '../../globals'
 
 const orders = [
   { id: 1, image: '/path/to/image1.jpg', title: 'Order 1', price: '$10.00' },
@@ -13,6 +15,27 @@ const orders = [
 
 const GrabOrderList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [data, setData] = useState<any[]>([]);
+  const { inputFoodName, setInputFoodName } = useGlobalStore();
+
+  useEffect(() => {
+    // event.preventDefault();
+    setData([]);
+    fetch('http://localhost:3001/api/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: inputFoodName }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        setData(data); // Set received data to state
+        console.log(`Server says: ${data}`);
+    })
+    .catch(error => console.error('Error:', error));
+
+  }, []);
 
   const toggleSelect = (id: number) => {
     setSelectedIds((prevSelectedIds) =>

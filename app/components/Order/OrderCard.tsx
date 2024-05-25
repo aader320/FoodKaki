@@ -1,4 +1,7 @@
+"use client";
+
 import React from 'react';
+import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface OrderCardProps {
@@ -11,10 +14,11 @@ interface OrderCardProps {
 
 const OrderCard: React.FC<OrderCardProps> = ({ image, title, selected, onSelect, href }) => {
     const router = useRouter();
+    
 
     const handleCardClick = () => {
         router.push(href);
-      };
+    };
 
     return (
     <div
