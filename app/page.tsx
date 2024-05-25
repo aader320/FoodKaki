@@ -4,6 +4,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import TextBoxWithButton from './components/TextBoxWithButton';
 import CalendarWidget from './components/CalendarWidget';
+import MoneyBudgetWidget from './components/MoneyBudgetWidget';
+
 export default function Home() {
   return (
     <div className="flex flex-col h-screen">
@@ -13,6 +15,9 @@ export default function Home() {
           <TextBoxWithButton />
           <div className="mt-4">
             <CalendarWidget />
+          </div>
+          <div className="mt-4">
+            <MoneyBudgetWidget />
           </div>
           {/* Add more content here */}
         </div>
