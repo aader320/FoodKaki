@@ -7,6 +7,7 @@ const IngredientList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const { inputFoodName } = useGlobalStore();
   const [data, setData] = useState<any[]>([]);
+  const [overlayItems, setOverlayItems] = useState<{ Name: string; Price: number; Image: string }[]>([]);
   const fetchCalled = useRef(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [overlayVisible, setOverlayVisible] = useState<boolean>(false);
@@ -52,13 +53,35 @@ const IngredientList: React.FC = () => {
       });
   };
 
-  const toggleSelect = (id: number) => {
+  const fetchData = (ingredientName: string) => {
+    setLoading(true);
+    fetch('http://localhost:3001/api/submitFairPrice', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ data: ingredientName }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Fetched overlay data:', data); // Log fetched overlay data
+        setOverlayItems(data); // Set fetched data to overlay items
+        setLoading(false);
+        setOverlayVisible(true); // Show overlay after data is fetched
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        setLoading(false);
+      });
+  };
+
+  const toggleSelect = (id: number, ingredientName: string) => {
     setSelectedIds((prevSelectedIds) =>
       prevSelectedIds.includes(id)
         ? prevSelectedIds.filter((selectedId) => selectedId !== id)
         : [...prevSelectedIds, id]
     );
-    setOverlayVisible(true); // Show overlay on ingredient click
+    fetchData(ingredientName); // Fetch data for the clicked ingredient
   };
 
   return (
@@ -72,36 +95,13 @@ const IngredientList: React.FC = () => {
             name={item.name}
             price={item.price}
             selected={selectedIds.includes(item.id)}
-            onSelect={() => toggleSelect(item.id)}
+            onSelect={() => toggleSelect(item.id, item.name)}
           />
         ))}
       </div>
-      {overlayVisible && <Overlay onClose={() => setOverlayVisible(false)} />} {/* Overlay component */}
+      {overlayVisible && <Overlay items={overlayItems} onClose={() => setOverlayVisible(false)} />} {/* Overlay component */}
     </div>
   );
 };
 
 export default IngredientList;
-
-
-
-const fetchData = (ingredientName: string) => {
-  setLoading(true);
-  fetch('http://localhost:3001/api/submitFairPrice', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ data: ingredientName }),
-  })
-    .then(response => response.json())
-    .then(data => {
-      // Wrap the data in an array to ensure data is always an array
-      setData([data]);
-      setLoading(false);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      setLoading(false);
-    });
-};

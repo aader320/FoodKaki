@@ -3,10 +3,10 @@ import IngredientCard from './IngredientCard';
 
 interface OverlayProps {
   onClose: () => void;
+  items: { Name: string; Price: number; Image: string }[]; // Accept items as props
 }
 
-const Overlay: React.FC<OverlayProps> = ({ onClose }) => {
-  const blankCards = Array(20).fill({ id: 0, image: '', name: '', price: '' }); // Example with more cards for scrolling
+const Overlay: React.FC<OverlayProps> = ({ onClose, items }) => {
 
   const handleCardClick = () => {
     onClose();
@@ -17,12 +17,12 @@ const Overlay: React.FC<OverlayProps> = ({ onClose }) => {
       <div className="bg-white p-4 rounded-lg max-w-md w-full h-full overflow-auto">
         <button onClick={onClose} className="text-red-500 mb-4">Close</button>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {blankCards.map((item, index) => (
+          {items.map((item, index) => (
             <IngredientCard
               key={index}
-              image={item.image}
-              name={item.name}
-              price={item.price}
+              image={item.Image}
+              name={item.Name}
+              price={`$${item.Price.toFixed(2)}`}
               selected={false}
               onSelect={handleCardClick}
             />

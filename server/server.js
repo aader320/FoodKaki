@@ -102,8 +102,6 @@ app.post('/api/submitGrab', (req, res) => {
 app.post('/api/submitFairPrice', (req, res) => {
     const { data } = req.body;  // Search query received from client
     console.log("Received data:", data);
-
-    console.log("(this is a test) Printing the ingredients needed to make nasi lemak: ")
  
     const scriptPath = 'FairpriceQuery.py';
     exec(`python3 ${scriptPath} "${data}"`, (error, stdout, stderr) => {
@@ -118,6 +116,7 @@ app.post('/api/submitFairPrice', (req, res) => {
         
         try {
             const parsedData = JSON.parse(stdout);
+            console.log(parsedData);
             res.send(parsedData); // Send the JSON data back to the client
         } catch (parseError) {
             console.error(`Error parsing JSON from Python script: ${parseParseError}`);
