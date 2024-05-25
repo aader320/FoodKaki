@@ -1,8 +1,10 @@
 "use client";
 
+import { useGlobalStore } from '../../globals';
 import React, { useState, useEffect, useRef } from 'react';
 import GrabOrderCard from './GrabOrderCard';
 import Modal from '../../components/Modal'; // Create a new Modal component
+import { useRouter } from 'next/navigation'; // Use next/navigation
 
 interface FoodItem {
   name: string;
@@ -20,12 +22,15 @@ interface Order {
 }
 
 const GrabOrderList: React.FC = () => {
+  const { grabPriceTotal1, setGrabPriceTotal } = useGlobalStore();
+  const { fairPriceTotal, setFairPriceTotal } = useGlobalStore();
+
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [data, setData] = useState<Order[]>([]);
   const [selectedCard, setSelectedCard] = useState<FoodItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fetchCalled = useRef(false);
-
+  const router = useRouter();
   useEffect(() => {
     if (fetchCalled.current) return;
     fetch('http://localhost:3001/api/submitGrab', {
@@ -59,6 +64,19 @@ const GrabOrderList: React.FC = () => {
     setSelectedCard(null);
   };
 
+  const buyFood = (val: any) => {
+    // console.log("val: " + val);
+    const val1 = Number(val / 100);
+    // setFairPriceTotal(val1);
+    setGrabPriceTotal(val1);
+    // console.log("val1: " + val1);
+    setTimeout(() =>{}, 1000);
+    // console.log("grab price: " + grabPriceTotal1);
+    // console.log("fiar price: " + fairPriceTotal);
+    router.push('/selectOrder');
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
       {data.map((order) =>
@@ -87,7 +105,7 @@ const GrabOrderList: React.FC = () => {
           />
           <div className="mt-4 text-center">
             <p>Do you want to order this?</p>
-            <button className="btn btn-primary mr-2" onClick={closeModal}>Yes</button>
+            <button className="btn btn-primary mr-2" onClick={() => buyFood(selectedCard.priceInMinorUnit)}>Yes</button>
             <button className="btn btn-secondary" onClick={closeModal}>No</button>
           </div>
         </Modal>
