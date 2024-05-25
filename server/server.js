@@ -15,12 +15,13 @@ async function GeminiPrompt(prompt) {
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = response.text();
-        console.log(text);
+        return JSON.parse(text);
     }
     catch(error) {
         console.error("Error Generating Gemini Content: ", error);
+        throw error;
     }
-  }
+}
 
 app.post('/api/submitGrab', (req, res) => {
     const { data } = req.body;  // Search query received from client
@@ -74,7 +75,16 @@ app.post('/api/submitFairPrice', (req, res) => {
     console.log("Success")
 });
 
-GeminiPrompt("Output nothing else except the json data. List me the ingredients in json format needed to make" + "nasi lemak");
+app.post('/api/generateIngredients', async (req, res) => {
+    const { inputFoodName } = req.body;
+    try {
+      const ingredients = await GeminiPrompt(`Output nothing else except the json data. List me the ingredients in json format needed to make ${inputFoodName}`);
+      console.log(ingredients);
+      res.json(ingredients);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to generate ingredients' });
+    }
+  });
 
 const PORT = 3001;
 app.listen(PORT, () => {
