@@ -22,6 +22,17 @@ async function GeminiPrompt(prompt) {
     }
   }
 
+app.post('/api/generateIngredients', async (req, res) => {
+const { inputFoodName } = req.body;
+try {
+    const ingredients = await GeminiPrompt(`Output nothing else except the json data. List me the ingredients in json format needed to make ${inputFoodName}`);
+    //console.log(ingredients);
+    res.json(ingredients);
+} catch (error) {
+    res.status(500).json({ error: 'Failed to generate ingredients' });
+}
+});
+
 app.post('/api/submitGrab', (req, res) => {
     const { data } = req.body;  // Search query received from client
     console.log("Received data:", data);
@@ -53,7 +64,6 @@ app.post('/api/submitFairPrice', (req, res) => {
     console.log("Received data:", data);
 
     console.log("(this is a test) Printing the ingredients needed to make nasi lemak: ")
-    GeminiPrompt("Output nothing else except the json data. List me the ingredients in json format needed to make" + "nasi lemak");
  
     const scriptPath = 'FairpriceQuery.py';
     exec(`python3 ${scriptPath} "${data}"`, (error, stdout, stderr) => {

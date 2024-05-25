@@ -35,6 +35,38 @@ const IngredientList: React.FC = () => {
     .catch(error => console.error('Error:', error));
   };
 
+  const generateIngredients = (foodName: string) => {
+    setLoading(true);
+    fetch('http://localhost:3001/api/generateIngredients', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ inputFoodName: foodName }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.ingredients && Array.isArray(data.ingredients)) {
+          const transformedData = data.ingredients.map((ingredient: string, index: number) => ({
+            id: index,
+            image: 'default-image.jpg', // lowercase 'image'
+            name: ingredient,           // lowercase 'name'
+            price: 'N/A',               // lowercase 'price'
+          }));
+          setData(transformedData);
+          console.log(transformedData);
+        } else {
+          console.error('Unexpected data format:', data);
+          setData([]);
+        }
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        setLoading(false);
+      });
+  };
+
   const toggleSelect = (id: number) => {
     setSelectedIds((prevSelectedIds) =>
       prevSelectedIds.includes(id)
