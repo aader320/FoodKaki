@@ -1,21 +1,20 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useGlobalStore } from "../globals"; // Use global store
 import { useRouter } from 'next/navigation'; // Use next/navigation
 
 const TextBoxWithButton: React.FC = () => {
-  const [inputValue, setInputValue] = useState('');
+  const { inputFoodName, setinputFoodName } = useGlobalStore();
   const router = useRouter();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value)
-    setInputValue(event.target.value);
+    setinputFoodName(event.target.value);
+    console.log(inputFoodName)
   };
 
   const handleButtonClick = () => {
-    if (inputValue.trim() !== '') {
-      // Assuming you have set up Zustand as described earlier
-      // setSearchQuery(inputValue);  // Uncomment if you are using Zustand
+    if (inputFoodName.trim() !== '') {
       router.push('/selectOrder'); // Replace with your desired route
     }
   };
@@ -25,7 +24,7 @@ const TextBoxWithButton: React.FC = () => {
       <input
         type="text"
         placeholder="What do you want to eat today?"
-        value={inputValue}
+        value={inputFoodName}
         onChange={handleInputChange}
         className="input input-bordered w-full"
       />

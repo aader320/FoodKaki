@@ -4,8 +4,12 @@ import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import OrderList from '../components/Order/OrderList';
+import { useGlobalStore } from '../globals';
 
 const Home: React.FC = () => {
+  // const { inputFoodName } = useGlobalStore();
+  // console.log("selectOrder from " + inputFoodName)
+
   return (
     <div className="flex flex-col h-screen">
       <Header />
