@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useEffect } from 'react';
 import GrabOrderCard from './GrabOrderCard';
 import {useGlobalStore} from '../../globals'
@@ -17,23 +17,25 @@ const GrabOrderList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [data, setData] = useState<any[]>([]);
   const { inputFoodName, setInputFoodName } = useGlobalStore();
+  const fetchCalled = useRef(false);
 
   useEffect(() => {
-    setData([]);
+    if (fetchCalled.current) return;
+    // Fetch initial data if needed
     fetch('http://localhost:3001/api/submitGrab', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ data: inputFoodName }),
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ data: inputFoodName }),
     })
-    .then(response => response.json())
-    .then(data => {
-        setData(data); // Set received data to state
-        console.log(`Server says: ${data}`);
-    })
-    .catch(error => console.error('Error:', error));
-
+      .then(response => response.json())
+      .then(data => {
+        setData(data); // Set initial data to state
+        console.log(`Initial data: ${data}`);
+      })
+      .catch(error => console.error('Error:', error));
+      fetchCalled.current = true; // Mark fetch as called
   }, []);
 
   const toggleSelect = (id: number) => {
