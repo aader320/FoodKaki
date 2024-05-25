@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import IngredientCard from './IngredientCard';
 import { useGlobalStore } from '../../globals';
+import Overlay from './Overlay';
 
 const IngredientList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -8,6 +9,7 @@ const IngredientList: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const fetchCalled = useRef(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [overlayVisible, setOverlayVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (fetchCalled.current) return;
@@ -56,6 +58,7 @@ const IngredientList: React.FC = () => {
         ? prevSelectedIds.filter((selectedId) => selectedId !== id)
         : [...prevSelectedIds, id]
     );
+    setOverlayVisible(true); // Show overlay on ingredient click
   };
 
   return (
@@ -73,8 +76,32 @@ const IngredientList: React.FC = () => {
           />
         ))}
       </div>
+      {overlayVisible && <Overlay onClose={() => setOverlayVisible(false)} />} {/* Overlay component */}
     </div>
   );
 };
 
 export default IngredientList;
+
+
+
+const fetchData = (ingredientName: string) => {
+  setLoading(true);
+  fetch('http://localhost:3001/api/submitFairPrice', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ data: ingredientName }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      // Wrap the data in an array to ensure data is always an array
+      setData([data]);
+      setLoading(false);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      setLoading(false);
+    });
+};
