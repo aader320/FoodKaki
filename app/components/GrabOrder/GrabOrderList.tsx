@@ -1,8 +1,8 @@
 "use client";
 
-import { useGlobalStore } from '@/app/globals';
 import React, { useState, useEffect, useRef } from 'react';
 import GrabOrderCard from './GrabOrderCard';
+import Modal from '../../components/Modal'; // Create a new Modal component
 
 interface FoodItem {
   name: string;
@@ -22,33 +22,41 @@ interface Order {
 const GrabOrderList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [data, setData] = useState<Order[]>([]);
+  const [selectedCard, setSelectedCard] = useState<FoodItem | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const fetchCalled = useRef(false);
-  const { inputFoodName, setInputFoodName } = useGlobalStore();
+
   useEffect(() => {
     if (fetchCalled.current) return;
-    // Fetch initial data if needed
     fetch('http://localhost:3001/api/submitGrab', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ data: inputFoodName }), // Example search term
+      body: JSON.stringify({ data: "Nasi Lemak" }), // Example search term
     })
       .then(response => response.json())
       .then(data => {
-        setData(data); // Set initial data to state
+        setData(data);
         console.log(`Initial data: ${data}`);
       })
       .catch(error => console.error('Error:', error));
-      fetchCalled.current = true; // Mark fetch as called
+    fetchCalled.current = true;
   }, []);
 
-  const toggleSelect = (id: string) => {
+  const toggleSelect = (id: string, foodItem: FoodItem) => {
     setSelectedIds((prevSelectedIds) =>
       prevSelectedIds.includes(id)
         ? prevSelectedIds.filter((selectedId) => selectedId !== id)
         : [...prevSelectedIds, id]
     );
+    setSelectedCard(foodItem);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedCard(null);
   };
 
   return (
@@ -62,9 +70,27 @@ const GrabOrderList: React.FC = () => {
             price={(foodItem.priceInMinorUnit / 100).toFixed(2)}
             image={foodItem.imgHref}
             selected={selectedIds.includes(`${order.ID}-${index}`)}
-            onSelect={() => toggleSelect(`${order.ID}-${index}`)}
+            onSelect={() => toggleSelect(`${order.ID}-${index}`, foodItem)}
           />
         ))
+      )}
+
+      {isModalOpen && selectedCard && (
+        <Modal onClose={closeModal}>
+          <GrabOrderCard
+            shopName=""
+            foodName={selectedCard.name}
+            price={(selectedCard.priceInMinorUnit / 100).toFixed(2)}
+            image={selectedCard.imgHref}
+            selected={false}
+            onSelect={() => {}}
+          />
+          <div className="mt-4 text-center">
+            <p>Do you want to order this?</p>
+            <button className="btn btn-primary mr-2" onClick={closeModal}>Yes</button>
+            <button className="btn btn-secondary" onClick={closeModal}>No</button>
+          </div>
+        </Modal>
       )}
     </div>
   );
