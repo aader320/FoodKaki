@@ -1,5 +1,6 @@
 "use client";
 
+import { useGlobalStore } from '@/app/globals';
 import React, { useState, useEffect, useRef } from 'react';
 import GrabOrderCard from './GrabOrderCard';
 
@@ -22,7 +23,7 @@ const GrabOrderList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [data, setData] = useState<Order[]>([]);
   const fetchCalled = useRef(false);
-
+  const { inputFoodName, setInputFoodName } = useGlobalStore();
   useEffect(() => {
     if (fetchCalled.current) return;
     // Fetch initial data if needed
@@ -31,7 +32,7 @@ const GrabOrderList: React.FC = () => {
       headers: {
           'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ data: "Nasi Lemak" }), // Example search term
+      body: JSON.stringify({ data: inputFoodName }), // Example search term
     })
       .then(response => response.json())
       .then(data => {
