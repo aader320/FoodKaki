@@ -22,7 +22,7 @@ async function GeminiPrompt(prompt) {
     }
   }
 
-app.post('/api/submit', (req, res) => {
+app.post('/api/submitGrab', (req, res) => {
     const { data } = req.body;  // Search query received from client
     console.log("Received data:", data);
 
@@ -48,7 +48,7 @@ app.post('/api/submit', (req, res) => {
     console.log("Success")
 });
 
-app.post('/api/submit1', (req, res) => {
+app.post('/api/submitFairPrice', (req, res) => {
     const { data } = req.body;  // Search query received from client
     console.log("Received data:", data);
 
