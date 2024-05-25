@@ -9,6 +9,7 @@ const IngredientList: React.FC = () => {
   const { inputFoodName } = useGlobalStore();
   const [data, setData] = useState<any[]>([]);
   const fetchCalled = useRef(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (fetchCalled.current) return;
