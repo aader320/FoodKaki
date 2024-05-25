@@ -3,7 +3,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import GrabOrderList from '../components/GrabOrderList';
+import GrabOrderList from '../components/GrabOrder/GrabOrderList';
 
 const Home: React.FC = () => {
   return (
