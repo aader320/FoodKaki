@@ -42,10 +42,10 @@ const IngredientList: React.FC = () => {
             id: index,
             image: 'default-image.jpg', // default image
             name: ingredient,           // ingredient name
-            price: 'N/A',               // default price
+            price: 'Tap to select item',               // default price
           }));
           setData(transformedData);
-          console.log('Transformed data:', transformedData); // Log transformed data
+          //console.log('Transformed data:', transformedData); // Log transformed data
         } else {
           console.error('Unexpected data format:', data);
           setData([]);
