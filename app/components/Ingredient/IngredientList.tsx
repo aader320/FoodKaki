@@ -8,6 +8,7 @@ const IngredientList: React.FC = () => {
   const { inputFoodName } = useGlobalStore();
   const [data, setData] = useState<any[]>([]);
   const [overlayItems, setOverlayItems] = useState<{ Name: string; Price: number; Image: string }[]>([]);
+  const [selectedCardId, setSelectedCardId] = useState<number | null>(null); // Track selected card ID
   const fetchCalled = useRef(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [overlayVisible, setOverlayVisible] = useState<boolean>(false);
@@ -81,7 +82,18 @@ const IngredientList: React.FC = () => {
         ? prevSelectedIds.filter((selectedId) => selectedId !== id)
         : [...prevSelectedIds, id]
     );
+    setSelectedCardId(id); // Store the selected card ID
     fetchData(ingredientName); // Fetch data for the clicked ingredient
+  };
+
+  const handleOverlayClose = (selectedOverlayItem: { Name: string; Price: number; Image: string }) => {
+    if (selectedCardId !== null) {
+      const updatedData = data.map(item =>
+        item.id === selectedCardId ? { ...item, name: selectedOverlayItem.Name, price: `$${selectedOverlayItem.Price.toFixed(2)}`, image: selectedOverlayItem.Image } : item
+      );
+      setData(updatedData);
+    }
+    setOverlayVisible(false);
   };
 
   return (
@@ -99,7 +111,7 @@ const IngredientList: React.FC = () => {
           />
         ))}
       </div>
-      {overlayVisible && <Overlay items={overlayItems} onClose={() => setOverlayVisible(false)} />} {/* Overlay component */}
+      {overlayVisible && <Overlay items={overlayItems} onClose={handleOverlayClose} />} {/* Overlay component */}
     </div>
   );
 };
