@@ -1,17 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import IngredientCard from './IngredientCard';
 import { useGlobalStore } from '../../globals';
 import Overlay from './Overlay';
 
 const IngredientList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const { inputFoodName } = useGlobalStore();
+  const { inputFoodName, setFairPriceTotal } = useGlobalStore();
   const [data, setData] = useState<any[]>([]);
   const [overlayItems, setOverlayItems] = useState<{ Name: string; Price: number; Image: string }[]>([]);
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null); // Track selected card ID
   const fetchCalled = useRef(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [overlayVisible, setOverlayVisible] = useState<boolean>(false);
+  const [cartItems, setCartItems] = useState<{ Name: string; Price: number; Image: string }[]>([]); // Items in cart
+
+  const router = useRouter();
 
   useEffect(() => {
     if (fetchCalled.current) return;
@@ -96,6 +100,14 @@ const IngredientList: React.FC = () => {
     setOverlayVisible(false);
   };
 
+  const handleAddToCart = () => {
+    const selectedItems = data.filter(item => selectedIds.includes(item.id));
+    setCartItems(selectedItems);
+    const total = selectedItems.reduce((sum, item) => sum + parseFloat(item.price.replace('$', '')), 0);
+    setFairPriceTotal(total);
+    router.push('/selectOrder');
+  };
+
   return (
     <div className="container mx-auto p-4">
       {loading && <p>Loading...</p>}
@@ -112,6 +124,7 @@ const IngredientList: React.FC = () => {
         ))}
       </div>
       {overlayVisible && <Overlay items={overlayItems} onClose={handleOverlayClose} />} {/* Overlay component */}
+      <button onClick={handleAddToCart} className="mt-4 p-2 bg-blue-500 text-white rounded">Add to cart</button>
     </div>
   );
 };

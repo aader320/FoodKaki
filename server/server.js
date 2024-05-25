@@ -21,29 +21,6 @@ async function GeminiPrompt(prompt) {
     }
   }
 
-// app.post('/api/generateIngredients', async (req, res) => {
-// const { inputFoodName } = req.body;
-// try {
-//     const ingredients = await GeminiPrompt(`Output nothing else except the json data. List me only the ingredients in json format needed to make ${inputFoodName}. e.g: [
-//         "rice",
-//         "coconut milk",
-//         "pandan leaves",
-//         "salt",
-//         "santan",
-//         "garlic"
-//       ]`);
-//     //res.json(ingredients);
-//     try {
-//         const parsedData = JSON.parse(ingredients);
-//         res.send(parsedData); // Send the JSON data back to the client
-//     } catch (parseError) {
-//         console.error(`Error parsing JSON from Python script: ${parseParseError}`);
-//         res.status(500).send({ error: 'Error parsing JSON from Python script' });
-//     }
-// } catch (error) {
-//     res.status(500).json({ error: 'Failed to generate ingredients' });
-// }
-// });
 
 app.post('/api/generateIngredients', async (req, res) => {
     const { inputFoodName } = req.body;
