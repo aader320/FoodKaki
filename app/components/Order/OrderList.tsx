@@ -7,12 +7,18 @@ interface Order {
   id: number;
   image: string;
   title: string;
-  price: string;
+  href: string;
 }
 
 const orders = [
-  { id: 1, image: 'https://food.grab.com/static/images/logo-grabfood2.svg', title: 'Grab Order', price: '$10.00' },
-  { id: 2, image: 'https://www.fairprice.com.sg/_next/static/images/fpg50-desktop-logo-b1bc71df2689859b9a84c04b577b2acc.svg', title: 'NTUC Order', price: '$20.00' },
+  { id: 1, 
+    image: 'https://food.grab.com/static/images/logo-grabfood2.svg', 
+    title: 'Grab Order', 
+    href: '/grabOrderList' },
+  { id: 2, 
+    image: 'https://www.fairprice.com.sg/_next/static/images/fpg50-desktop-logo-b1bc71df2689859b9a84c04b577b2acc.svg', 
+    title: 'NTUC Order', 
+    href: '/ingredientList' },
 ];
 
 const OrderList: React.FC = () => {
@@ -33,7 +39,7 @@ const OrderList: React.FC = () => {
           key={order.id}
           image={order.image}
           title={order.title}
-          price={order.price}
+          href={order.href}
           selected={selectedIds.includes(order.id)}
           onSelect={() => toggleSelect(order.id)}
         />
