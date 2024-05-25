@@ -52,6 +52,9 @@ app.post('/api/submit1', (req, res) => {
     const { data } = req.body;  // Search query received from client
     console.log("Received data:", data);
 
+    console.log("(this is a test) Printing the ingredients needed to make nasi lemak: ")
+    GeminiPrompt("Output nothing else except the json data. List me the ingredients in json format needed to make" + "nasi lemak");
+ 
     const scriptPath = 'FairpriceQuery.py';
     exec(`python3 ${scriptPath} "${data}"`, (error, stdout, stderr) => {
         if (error) {
@@ -74,7 +77,6 @@ app.post('/api/submit1', (req, res) => {
     console.log("Success")
 });
 
-GeminiPrompt("Output nothing else except the json data. List me the ingredients in json format needed to make" + "nasi lemak");
 
 const PORT = 3001;
 app.listen(PORT, () => {

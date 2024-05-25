@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 const MoneyBudgetWidget: React.FC = () => {
-  const [budget, setBudget] = useState<number>(0);
+  const [budget, setBudget] = useState<number>(500);
   const [expenses, setExpenses] = useState<number>(0);
   const [expenseInput, setExpenseInput] = useState<number | undefined>();
 

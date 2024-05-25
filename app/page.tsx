@@ -7,6 +7,7 @@ import CalendarWidget from './components/CalendarWidget';
 import MoneyBudgetWidget from './components/MoneyBudgetWidget';
 
 export default function Home() {
+  
   return (
     <div className="flex flex-col h-screen">
       <Header />
