@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState, FormEvent, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import IngredientCard from './IngredientCard';
 import { useGlobalStore } from '../../globals';
 
@@ -14,27 +12,10 @@ const IngredientList: React.FC = () => {
   useEffect(() => {
     if (fetchCalled.current) return;
     if (inputFoodName) {
-      fetchData();
+      generateIngredients(inputFoodName);
       fetchCalled.current = true; // Mark fetch as called
     }
   }, [inputFoodName]);
-
-  const fetchData = () => {
-    setData([]);
-    fetch('http://localhost:3001/api/submitFairPrice', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ data: inputFoodName }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        setData(data); // Set received data to state
-        console.log(`Server says: ${data}`);
-    })
-    .catch(error => console.error('Error:', error));
-  };
 
   const generateIngredients = (foodName: string) => {
     setLoading(true);
@@ -47,15 +28,16 @@ const IngredientList: React.FC = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (data.ingredients && Array.isArray(data.ingredients)) {
-          const transformedData = data.ingredients.map((ingredient: string, index: number) => ({
+        console.log('Received data:', data); // Log received data
+        if (data && Array.isArray(data)) {
+          const transformedData = data.map((ingredient: string, index: number) => ({
             id: index,
-            image: 'default-image.jpg', // lowercase 'image'
-            name: ingredient,           // lowercase 'name'
-            price: 'N/A',               // lowercase 'price'
+            image: 'default-image.jpg', // default image
+            name: ingredient,           // ingredient name
+            price: 'N/A',               // default price
           }));
           setData(transformedData);
-          console.log(transformedData);
+          console.log('Transformed data:', transformedData); // Log transformed data
         } else {
           console.error('Unexpected data format:', data);
           setData([]);
@@ -78,14 +60,14 @@ const IngredientList: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      {data.length === 0 && <p>Loading...</p>}
+      {loading && <p>Loading...</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {data.map((item: any) => (
+        {data.map((item) => (
           <IngredientCard
             key={item.id}
-            image={item.Image}
-            name={item.Name}
-            price={item.Price}
+            image={item.image}
+            name={item.name}
+            price={item.price}
             selected={selectedIds.includes(item.id)}
             onSelect={() => toggleSelect(item.id)}
           />

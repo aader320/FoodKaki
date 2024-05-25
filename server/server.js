@@ -14,24 +14,64 @@ async function GeminiPrompt(prompt) {
         // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
         const result = await model.generateContent(prompt);
         const response = await result.response;
-        const text = response.text();
-        console.log(text);
+        return response.text();
     }
     catch(error) {
         console.error("Error Generating Gemini Content: ", error);
     }
   }
 
+// app.post('/api/generateIngredients', async (req, res) => {
+// const { inputFoodName } = req.body;
+// try {
+//     const ingredients = await GeminiPrompt(`Output nothing else except the json data. List me only the ingredients in json format needed to make ${inputFoodName}. e.g: [
+//         "rice",
+//         "coconut milk",
+//         "pandan leaves",
+//         "salt",
+//         "santan",
+//         "garlic"
+//       ]`);
+//     //res.json(ingredients);
+//     try {
+//         const parsedData = JSON.parse(ingredients);
+//         res.send(parsedData); // Send the JSON data back to the client
+//     } catch (parseError) {
+//         console.error(`Error parsing JSON from Python script: ${parseParseError}`);
+//         res.status(500).send({ error: 'Error parsing JSON from Python script' });
+//     }
+// } catch (error) {
+//     res.status(500).json({ error: 'Failed to generate ingredients' });
+// }
+// });
+
 app.post('/api/generateIngredients', async (req, res) => {
-const { inputFoodName } = req.body;
-try {
-    const ingredients = await GeminiPrompt(`Output nothing else except the json data. List me the ingredients in json format needed to make ${inputFoodName}`);
-    //console.log(ingredients);
-    res.json(ingredients);
-} catch (error) {
-    res.status(500).json({ error: 'Failed to generate ingredients' });
-}
-});
+    const { inputFoodName } = req.body;
+    try {
+      const ingredients = await GeminiPrompt(`Output nothing else except the json data. List me only the ingredients in json format needed to make ${inputFoodName}. e.g: [
+          "rice",
+          "coconut milk",
+          "pandan leaves",
+          "salt",
+          "santan",
+          "garlic"
+        ]`);
+      console.log('Raw ingredients:', ingredients); // Log raw response
+      
+      try {
+        const parsedData = JSON.parse(ingredients);
+        console.log('Parsed ingredients:', parsedData); // Log parsed response
+        res.send(parsedData); // Send the JSON data back to the client
+      } catch (parseError) {
+        console.error(`Error parsing JSON: ${parseError}`);
+        res.status(500).send({ error: 'Error parsing JSON' });
+      }
+    } catch (error) {
+      console.error('Failed to generate ingredients:', error);
+      res.status(500).json({ error: 'Failed to generate ingredients' });
+    }
+  });
+  
 
 app.post('/api/submitGrab', (req, res) => {
     const { data } = req.body;  // Search query received from client
