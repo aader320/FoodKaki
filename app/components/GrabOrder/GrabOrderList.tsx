@@ -19,9 +19,8 @@ const GrabOrderList: React.FC = () => {
   const { inputFoodName, setInputFoodName } = useGlobalStore();
 
   useEffect(() => {
-    // event.preventDefault();
     setData([]);
-    fetch('http://localhost:3001/api/submit', {
+    fetch('http://localhost:3001/api/submitGrab', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
