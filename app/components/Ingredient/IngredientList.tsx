@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, FormEvent, useEffect } from 'react';
+import React, { useState, FormEvent, useEffect, useRef } from 'react';
 import IngredientCard from './IngredientCard';
 import { useGlobalStore } from '../../globals';
 
@@ -8,10 +8,13 @@ const IngredientList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const { inputFoodName } = useGlobalStore();
   const [data, setData] = useState<any[]>([]);
+  const fetchCalled = useRef(false);
 
   useEffect(() => {
+    if (fetchCalled.current) return;
     if (inputFoodName) {
       fetchData();
+      fetchCalled.current = true; // Mark fetch as called
     }
   }, [inputFoodName]);
 
