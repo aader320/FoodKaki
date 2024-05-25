@@ -57,8 +57,8 @@ const CalendarWidget: React.FC = () => {
       </div>
       <div className="w-1/3 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold">Remaining Daily Budget</h2>
-          <p className="text-2xl">{formattedRemainingBudget}</p>
+          <h2 className="ml-5 text-sm md:text-3xl sm:text-md font-bold">Remaining Daily Budget</h2>
+          <p className="ml-5 text-sm md:text-xl">{formattedRemainingBudget}</p>
         </div>
       </div>
     </div>
