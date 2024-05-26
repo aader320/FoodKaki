@@ -24,7 +24,8 @@ interface Order {
 const GrabOrderList: React.FC = () => {
   const { grabPriceTotal1, setGrabPriceTotal } = useGlobalStore();
   const { fairPriceTotal, setFairPriceTotal } = useGlobalStore();
-
+  const { inputFoodName, setinputFoodName } = useGlobalStore();
+  
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [data, setData] = useState<Order[]>([]);
   const [selectedCard, setSelectedCard] = useState<FoodItem | null>(null);
@@ -38,7 +39,7 @@ const GrabOrderList: React.FC = () => {
       headers: {
           'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ data: "Nasi Lemak" }), // Example search term
+      body: JSON.stringify({ data:inputFoodName }), // Example search term
     })
       .then(response => response.json())
       .then(data => {

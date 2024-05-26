@@ -40,7 +40,7 @@ const IngredientList: React.FC = () => {
         if (data && Array.isArray(data)) {
           const transformedData = data.map((ingredient: string, index: number) => ({
             id: index,
-            image: 'default-image.jpg', // default image
+            image: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0Ij48ZyBmaWxsPSJibGFjayI+PHJlY3Qgd2lkdGg9IjQiIGhlaWdodD0iNCIgeD0iMyIgeT0iMTAiIHJ4PSIyIi8+PHJlY3Qgd2lkdGg9IjQiIGhlaWdodD0iNCIgeD0iMTAiIHk9IjEwIiByeD0iMiIvPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHg9IjE3IiB5PSIxMCIgcng9IjIiLz48L2c+PC9zdmc+', // default image
             name: ingredient,           // ingredient name
             price: 'Tap to select item', // default price
           }));

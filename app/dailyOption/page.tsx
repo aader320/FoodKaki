@@ -14,6 +14,7 @@ const Home: React.FC = () => {
         <div className="m-8">
         <BackHeader />
         </div>
+        
         <div >
         <DailyContent />
         </div>
