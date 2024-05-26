@@ -17,7 +17,7 @@ const orders = [
 
 const OrderList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const { fairPriceTotal, grabPriceTotal1, dailyBudget, setRemainingMonthlyBudget, remainingMonthlyBudget } = useGlobalStore();
+  const { inputFoodName, fairPriceTotal, grabPriceTotal1, dailyBudget, setRemainingMonthlyBudget, remainingMonthlyBudget } = useGlobalStore();
 
   const toggleSelect = (id: number) => {
     setSelectedIds((prevSelectedIds) =>
@@ -39,8 +39,7 @@ const OrderList: React.FC = () => {
 
 
     <div className="min-h-screen flex flex-col items-center mt-10">
-    <h1 className="text-4xl font-bold text-center mb-4">Chipotle Cheesy CHicken Burger</h1>
-    <h2 className="text-xl text-center mb-4">A signature flame-grilled chicken patty topped with smoked beef</h2>
+    <h1 className="text-4xl font-bold text-center mb-4">{inputFoodName}</h1>
         <div className="  shadow-lg rounded-full flex items-center justify-center">
         <img src="/burger.png" alt="Description of Image" className="  mb-4" />
         </div>
