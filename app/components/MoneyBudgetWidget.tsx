@@ -54,12 +54,6 @@ const MoneyBudgetWidget: React.FC = () => {
           <button onClick={addExpense} className="btn bg-customGreen-100 ml-2">Add</button>
         </div>
       </div>
-      <div className="mb-4">
-        <label className="block text-gray-700">Total Expenses: ${expenses}</label>
-      </div>
-      <div>
-        <label className="block text-gray-700 ">Remaining Budget: ${remainingBudget}</label>
-      </div>
     </div>
   );
 };
