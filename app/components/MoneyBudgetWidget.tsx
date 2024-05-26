@@ -42,15 +42,6 @@ const MoneyBudgetWidget: React.FC = () => {
     <div className="border rounded shadow p-4">
       <h2 className="text-xl mb-4">Money Budget Widget</h2>
       <div className="mb-4">
-        <label className="block text-gray-700">Total Budget:</label>
-        <input
-          type="number"
-          value={budget}
-          onChange={handleBudgetChange}
-          className="input input-bordered w-full"
-        />
-      </div>
-      <div className="mb-4">
         <label className="block text-gray-700">Add Expense:</label>
         <div className="flex">
           <input
