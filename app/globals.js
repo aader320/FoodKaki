@@ -11,6 +11,7 @@ export const useGlobalStore = create((set) => ({
 
   setinputFoodName: (value) => set({ inputFoodName: value }),
   // setGrabPriceTotal: (value) => set({ grabPriceTotal: value }),
+  setRemainingMonthlyBudget: (value) => set({ remainingMonthlyBudget: value }),
   setFairPriceTotal: (value) => set({ fairPriceTotal: value }),
   setGrabPriceTotal: (value) => set({ grabPriceTotal1: value }),
   setDailyBudget: (value) => set({ dailyBudget: value }),

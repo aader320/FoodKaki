@@ -11,7 +11,7 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 const CalendarWidget: React.FC = () => {
   const [mSelectedDate, setValue] = useState<Value>(new Date());
   const [ mDailyRemainingBudget, setDailyRemainingBudget ] = useState<number>(0.0);
-  const { dailyBudget, setSelectedDate, daysBudgetArray, selectedDate } = useGlobalStore();
+  const { dailyBudget, setSelectedDate, daysBudgetArray, selectedDate, remainingMonthlyBudget } = useGlobalStore();
 
   const handleDateChange = (value: Value) => {
     setValue(value);
@@ -44,6 +44,7 @@ const CalendarWidget: React.FC = () => {
 
   //const formattedRemainingBudget = daysBudgetArray[selectedDate].toFixed(2);
   const formattedRemainingBudget = "$" + mDailyRemainingBudget.toFixed(2);
+  const formattedMonthlyRemainingBudget = "$" + remainingMonthlyBudget;
   //console.log(formattedRemainingBudget)
   
   return (
@@ -58,7 +59,7 @@ const CalendarWidget: React.FC = () => {
       <div className="w-1/3 flex flex-col justify-center pl-4">
         <div className="text-left mb-4">
           <h2 className="text-sm md:text-3xl sm:text-md font-bold">Monthly Budget</h2>
-          <p className="text-sm md:text-xl">{"500"}</p>
+          <p className="text-sm md:text-xl">{formattedMonthlyRemainingBudget}</p>
         </div>
         <div className="text-left">
           <h2 className="text-sm md:text-3xl sm:text-md font-bold">Remaining Daily Budget</h2>

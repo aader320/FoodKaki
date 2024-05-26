@@ -7,7 +7,7 @@ const MoneyBudgetWidget: React.FC = () => {
   const [budget, setBudget] = useState<number>(500);
   const [expenses, setExpenses] = useState<number>(0);
   const [expenseInput, setExpenseInput] = useState<number | undefined>();
-  const { setDailyBudget, setDaysArrayAddition, selectedDate } = useGlobalStore();
+  const { setDailyBudget, setDaysArrayAddition, selectedDate, remainingMonthlyBudget, setRemainingMonthlyBudget } = useGlobalStore();
   const [dailyBudget, setDailyBudgetCalculated] = useState<number>(0);
 
   const handleBudgetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,13 +17,14 @@ const MoneyBudgetWidget: React.FC = () => {
   const handleExpenseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setExpenseInput(Number(e.target.value));
   };
-
+  
   const addExpense = () => {
     if (expenseInput) {
       setExpenses(expenses + expenseInput);
       setExpenseInput(undefined);
       setDaysArrayAddition(selectedDate, expenseInput);
     }
+    setRemainingMonthlyBudget(remainingMonthlyBudget - Number(expenseInput));
   };
 
   const remainingBudget = budget - expenses;
