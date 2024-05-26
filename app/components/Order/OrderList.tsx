@@ -17,8 +17,7 @@ const orders = [
 
 const OrderList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const { fairPriceTotal } = useGlobalStore();
-  const { grabPriceTotal1  } = useGlobalStore();
+  const { fairPriceTotal, grabPriceTotal1, dailyBudget, setDailyBudget } = useGlobalStore();
 
   const toggleSelect = (id: number) => {
     setSelectedIds((prevSelectedIds) =>
@@ -27,7 +26,15 @@ const OrderList: React.FC = () => {
         : [...prevSelectedIds, id]
     );
   };
-  console.log("grab price: " + grabPriceTotal1);
+
+  const handleGrabOrderConfirm = () => {
+    setDailyBudget(dailyBudget - grabPriceTotal1);
+  };
+
+  const handleFairPriceOrderConfirm = () => {
+    setDailyBudget(dailyBudget - fairPriceTotal);
+  };
+
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
       {orders.map((order) => (
@@ -39,6 +46,8 @@ const OrderList: React.FC = () => {
           selected={selectedIds.includes(order.id)}
           onSelect={() => toggleSelect(order.id)}
           priceTotal={order.id === 1 ? grabPriceTotal1 : order.id === 2 ? fairPriceTotal : undefined}
+          confirmOrderVisible={order.id === 1 ? grabPriceTotal1 > 0 : order.id === 2 ? fairPriceTotal > 0 : false}
+          onConfirmOrder={order.id === 1 ? handleGrabOrderConfirm : order.id === 2 ? handleFairPriceOrderConfirm : undefined}
         />
       ))}
     </div>

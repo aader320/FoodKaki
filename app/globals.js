@@ -2,11 +2,12 @@ import create from 'zustand';
 
 export const useGlobalStore = create((set) => ({
   inputFoodName: '',
-  dailyBudget: 0.0,
+  dailyBudget: 500.0,
   selectedDate: -1,
   daysBudgetArray: new Array(31).fill(0.0),
   grabPriceTotal1: 0.0,
   fairPriceTotal: 0.0,
+  remainingMonthlyBudget: 500.0,
 
   setinputFoodName: (value) => set({ inputFoodName: value }),
   // setGrabPriceTotal: (value) => set({ grabPriceTotal: value }),
