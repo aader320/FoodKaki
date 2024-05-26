@@ -17,7 +17,7 @@ const orders = [
 
 const OrderList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const { fairPriceTotal, grabPriceTotal1, dailyBudget, setDailyBudget } = useGlobalStore();
+  const { fairPriceTotal, grabPriceTotal1, dailyBudget, setRemainingMonthlyBudget, remainingMonthlyBudget } = useGlobalStore();
 
   const toggleSelect = (id: number) => {
     setSelectedIds((prevSelectedIds) =>
@@ -28,11 +28,11 @@ const OrderList: React.FC = () => {
   };
 
   const handleGrabOrderConfirm = () => {
-    setDailyBudget(dailyBudget - grabPriceTotal1);
+    setRemainingMonthlyBudget(remainingMonthlyBudget - grabPriceTotal1);
   };
 
   const handleFairPriceOrderConfirm = () => {
-    setDailyBudget(dailyBudget - fairPriceTotal);
+    setRemainingMonthlyBudget(remainingMonthlyBudget - fairPriceTotal);
   };
 
   return (
