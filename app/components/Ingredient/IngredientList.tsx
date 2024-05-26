@@ -42,10 +42,9 @@ const IngredientList: React.FC = () => {
             id: index,
             image: 'default-image.jpg', // default image
             name: ingredient,           // ingredient name
-            price: 'Tap to select item',               // default price
+            price: 'Tap to select item', // default price
           }));
           setData(transformedData);
-          //console.log('Transformed data:', transformedData); // Log transformed data
         } else {
           console.error('Unexpected data format:', data);
           setData([]);
@@ -71,8 +70,8 @@ const IngredientList: React.FC = () => {
       .then(data => {
         console.log('Fetched overlay data:', data); // Log fetched overlay data
         setOverlayItems(data); // Set fetched data to overlay items
-        setLoading(false);
         setOverlayVisible(true); // Show overlay after data is fetched
+        setLoading(false);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -90,8 +89,8 @@ const IngredientList: React.FC = () => {
     fetchData(ingredientName); // Fetch data for the clicked ingredient
   };
 
-  const handleOverlayClose = (selectedOverlayItem: { Name: string; Price: number; Image: string }) => {
-    if (selectedCardId !== null) {
+  const handleOverlayClose = (selectedOverlayItem: { Name: string; Price: number; Image: string } | null) => {
+    if (selectedOverlayItem && selectedCardId !== null) {
       const updatedData = data.map(item =>
         item.id === selectedCardId ? { ...item, name: selectedOverlayItem.Name, price: `$${selectedOverlayItem.Price.toFixed(2)}`, image: selectedOverlayItem.Image } : item
       );
