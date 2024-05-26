@@ -11,9 +11,10 @@ interface OrderCardProps {
   onSelect: () => void;
   priceTotal?: number; // Optional prop for displaying price total
   confirmOrderVisible?: boolean; // Optional prop for showing confirm order button
+  onConfirmOrder?: () => void; // Prop to handle order confirmation
 }
 
-const OrderCard: React.FC<OrderCardProps> = ({ image, title, selected, onSelect, href, priceTotal, confirmOrderVisible }) => {
+const OrderCard: React.FC<OrderCardProps> = ({ image, title, selected, onSelect, href, priceTotal, confirmOrderVisible, onConfirmOrder }) => {
   const router = useRouter();
 
   const handleCardClick = () => {
@@ -21,6 +22,9 @@ const OrderCard: React.FC<OrderCardProps> = ({ image, title, selected, onSelect,
   };
 
   const handleConfirmOrder = () => {
+    if (onConfirmOrder) {
+      onConfirmOrder();
+    }
     router.push('/'); // Navigate to the default page
   };
 
