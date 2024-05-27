@@ -12,17 +12,19 @@ export default function Home() {
   
   return (
     <div className="flex flex-col h-screen">
-        <div className='m-8'>
-      <BackHeader  />
-
-        </div>
+      <div className="bg-blue-600 text-white text-center py-4">
+        <h1 className="text-2xl font-bold">FOODKAKI</h1>
+      </div>
+      <div className="mx-12 mt-2">
+        <BackHeader />
+      </div>
       <main className="flex-grow overflow-auto mt-16 mb-16">
         <div className="container mx-auto p-4">
           <TextBoxWithButton />
           <div className="mt-4">
             <CalendarWidget />
           </div>
-          <div className="mt-4 ">
+          <div className="mt-4">
             <MoneyBudgetWidget />
           </div>
           {/* Add more content here */}
@@ -30,5 +32,5 @@ export default function Home() {
       </main>
       <FooterTheme />
     </div>
-  );
+  );  
 }
