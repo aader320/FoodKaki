@@ -43,11 +43,7 @@ const GrabOrderList: React.FC = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (data.length === 0) {
-          setData([]);
-        } else {
-          setData(data);
-        }
+        setData(data);
         console.log(`Initial data: ${data}`);
       })
       .catch(error => console.error('Error:', error));
@@ -70,31 +66,32 @@ const GrabOrderList: React.FC = () => {
   };
 
   const buyFood = (val: any) => {
+    // console.log("val: " + val);
     const val1 = Number(val / 100);
+    // setFairPriceTotal(val1);
     setGrabPriceTotal(val1);
+    // console.log("val1: " + val1);
     setTimeout(() =>{}, 1000);
+    // console.log("grab price: " + grabPriceTotal1);
+    // console.log("fiar price: " + fairPriceTotal);
     router.push('/selectOrder');
     setIsModalOpen(false);
   };
 
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {data.length === 0 ? (
-        <div>No results found</div>
-      ) : (
-        data.map((order) =>
-          order.Details.Food.map((foodItem, index) => (
-            <GrabOrderCard
-              key={`${order.ID}-${index}`}
-              shopName={order.Details.Name}
-              foodName={foodItem.name}
-              price={(foodItem.priceInMinorUnit / 100).toFixed(2)}
-              image={foodItem.imgHref}
-              selected={selectedIds.includes(`${order.ID}-${index}`)}
-              onSelect={() => toggleSelect(`${order.ID}-${index}`, foodItem)}
-            />
-          ))
-        )
+      {data.map((order) =>
+        order.Details.Food.map((foodItem, index) => (
+          <GrabOrderCard
+            key={`${order.ID}-${index}`}
+            shopName={order.Details.Name}
+            foodName={foodItem.name}
+            price={(foodItem.priceInMinorUnit / 100).toFixed(2)}
+            image={foodItem.imgHref}
+            selected={selectedIds.includes(`${order.ID}-${index}`)}
+            onSelect={() => toggleSelect(`${order.ID}-${index}`, foodItem)}
+          />
+        ))
       )}
 
       {isModalOpen && selectedCard && (
