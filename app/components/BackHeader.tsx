@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useGlobalStore } from '../globals';
 
 const BackHeader: React.FC = () => {
   const router = useRouter();
+  const { inputFoodName } = useGlobalStore();
+
+  useEffect(() => {
+    // Check if the inputFoodName is empty or not as needed (also check if it's null or undefined if required)
+    if (!inputFoodName) {
+      router.replace('/'); // Use replace to avoid adding the current page to the history stack
+    }
+  }, [inputFoodName, router]);
 
   return (
     <div className="relative w-full bg-blue-600 flex justify-between items-center">
