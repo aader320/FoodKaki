@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import IngredientCard from './IngredientCard';
 import { useGlobalStore } from '../../globals';
 import Overlay from './Overlay';
+import Spinner from '../Spinner';  // Import the Spinner component
 
 const IngredientList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -107,9 +108,12 @@ const IngredientList: React.FC = () => {
     router.push('/selectOrder');
   };
 
+  if (loading) {
+    return <Spinner />;  // Display Spinner while data is loading
+  }
+
   return (
     <div className="container mx-auto p-4">
-      {loading && <p>Loading...</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {data.map((item) => (
           <IngredientCard

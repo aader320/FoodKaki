@@ -16,7 +16,7 @@ const GrabOrderCard: React.FC<GrabOrderCardProps> = ({ shopName, foodName, price
       onClick={onSelect}
     >
       <figure>
-        <img src={image} alt={foodName} className="w-full h-24 object-cover" />
+        <img src={image} alt={foodName} className="w-full h-24 object-contain" />
       </figure>
       <div className="card-body">
         <h2 className="card-title">{shopName}</h2>

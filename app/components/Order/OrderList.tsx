@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import OrderCard from './OrderCard';
 import { useGlobalStore } from '../../globals';
+import Spinner from '../Spinner';
 
 const orders = [
   { id: 1, 
@@ -46,29 +47,6 @@ const OrderList: React.FC = () => {
         <div className="  shadow-lg rounded-full flex items-center justify-center">
         <img src="/burger.png" alt="Description of Image" className="  mb-4" />
         </div>
-
-        {/* <div className="m-5  flex items-center space-x-12  "> 
-            <div className=" font-bold items-center justify-center rounded-badge shadow-lg bg-green-500 hover:bg-green-600  ">
-                <h1 className="mt-10 flex items-center justify-center text-md md:text-3xl">Home Made</h1>
-                    <div className="flex items-center justify-center ">
-                        <img src="/burger.png" alt="Description of Image" className="w-full sm:w-1/3 md:w-1/2 lg:w-3/4 mb-20" />
-                    </div>
-                </div>
-
-            <div className="m-5  font-bold items-center justify-center rounded-badge shadow-lg  ">
-                <h1 className="mt-10 flex items-center justify-center text-md md:text-3xl">Delivery</h1>
-                    <div className="flex items-center justify-center">
-                        <img src="/burger.png" alt="Description of Image" className="w-full sm:w-1/3 md:w-1/2 lg:w-3/4 mb-20" />
-                    </div>
-            </div>
-
-            
-        </div>
-        <div className='flex space-y-20'> 
-        <text className='text-white'> 1</text>
-        <text className='text-white'> 1 </text>
-        </div> */}
-
 
         <div className="container mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
       {orders.map((order) => (

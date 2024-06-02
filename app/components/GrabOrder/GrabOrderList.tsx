@@ -5,6 +5,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import GrabOrderCard from './GrabOrderCard';
 import Modal from '../../components/Modal'; // Create a new Modal component
 import { useRouter } from 'next/navigation'; // Use next/navigation
+import Spinner from '../Spinner';  // Import the Spinner component
+import NothingFound from '../NothingFound';  // Import the Spinner component
 
 interface FoodItem {
   name: string;
@@ -25,15 +27,18 @@ const GrabOrderList: React.FC = () => {
   const { grabPriceTotal1, setGrabPriceTotal } = useGlobalStore();
   const { fairPriceTotal, setFairPriceTotal } = useGlobalStore();
   const { inputFoodName, setinputFoodName } = useGlobalStore();
-  
+  const [isLoading, setIsLoading] = useState(true);  // Manage loading state
+  const [isError, setIsError] = useState(false);  // Manage loading state
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [data, setData] = useState<Order[]>([]);
   const [selectedCard, setSelectedCard] = useState<FoodItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const fetchCalled = useRef(false);
   const router = useRouter();
+
   useEffect(() => {
     if (fetchCalled.current) return;
+    setIsLoading(true);
     fetch('http://localhost:3001/api/submitGrab', {
       method: 'POST',
       headers: {
@@ -44,9 +49,14 @@ const GrabOrderList: React.FC = () => {
       .then(response => response.json())
       .then(data => {
         setData(data);
+        setIsLoading(false);
         console.log(`Initial data: ${data}`);
       })
-      .catch(error => console.error('Error:', error));
+      .catch(error => {
+        setIsLoading(false);
+        setIsError(true);
+        // console.error('Error:', error)
+      });
     fetchCalled.current = true;
   }, []);
 
@@ -66,17 +76,24 @@ const GrabOrderList: React.FC = () => {
   };
 
   const buyFood = (val: any) => {
-    // console.log("val: " + val);
     const val1 = Number(val / 100);
-    // setFairPriceTotal(val1);
     setGrabPriceTotal(val1);
-    // console.log("val1: " + val1);
     setTimeout(() =>{}, 1000);
-    // console.log("grab price: " + grabPriceTotal1);
-    // console.log("fiar price: " + fairPriceTotal);
     router.push('/selectOrder');
     setIsModalOpen(false);
   };
+
+  if (isLoading) {
+    return <Spinner />;  // Display Spinner while data is loading
+  }
+
+  if (isError){
+    return(
+      <div>
+        <NothingFound/>
+      </div>
+    )
+  }
 
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">

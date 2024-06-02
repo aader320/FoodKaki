@@ -15,9 +15,7 @@ export default function Home() {
       <div className="bg-blue-600 text-white text-center py-4">
         <h1 className="text-2xl font-bold">FOODKAKI</h1>
       </div>
-      <div className="m-8 mt-2"> {/* Adjust margin-top here */}
-        <BackHeader />
-      </div>
+
       <main className="flex-grow overflow-auto mt-16 mb-16">
         <div className="container mx-auto p-4">
           <TextBoxWithButton />
@@ -30,6 +28,7 @@ export default function Home() {
           {/* Add more content here */}
         </div>
       </main>
+      
       <FooterTheme />
     </div>
   );

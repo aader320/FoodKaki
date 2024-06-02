@@ -31,7 +31,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ image, title, selected, onSelect,
   return (
     <div className={`card shadow-lg cursor-pointer ${selected ? 'border-2 border-primary' : ''}`}>
       <figure onClick={handleCardClick}>
-        <img src={image} alt={title} className="w-full h-48 object-cover" />
+        <img src={image} alt={title} className="w-full h-48 object-contain" />
       </figure>
       <div className="card-body">
         <h2 className="card-title">{title}</h2>

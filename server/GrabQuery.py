@@ -29,6 +29,13 @@ def fetch_initial_data(search_query):
 # Step 2: Parse Data to Get Restaurant List
 def parse_data(data):
     restaurant_list = data.get("props", {}).get("initialReduxState", {}).get("pageRestaurantsV2", {}).get("collections", {}).get("restaurantList", {})
+    if restaurant_list is None:
+        return
+    try:
+        first_key = next(iter(restaurant_list))
+    except StopIteration:
+        return None  # Return None or an appropriate value indicating no data
+    
     first_key = next(iter(restaurant_list))
 
     # Extract the list which is 2 layers down
@@ -37,6 +44,9 @@ def parse_data(data):
     return clean_data
 
 def fetch_detailed_responses(ids):
+    if ids is None:
+        return
+
     url_template = "https://portal.grab.com/foodweb/v2/merchants/{}"
     all_data = []
 
@@ -54,23 +64,24 @@ def fetch_detailed_responses(ids):
         # List to hold all food items
         food_items = []
         # Iterate through each category
-        for category in categories:
-            items = category.get("items", [])
-            
-            # Iterate through each item in the category
-            for item in items:
-                food_item = {
-                    "name": item.get("name"),
-                    "priceInMinorUnit": item.get("priceInMinorUnit"),
-                    "imgHref": item.get("imgHref")
-                }
-                food_items.append(food_item)
-        filtered_food_items = [food for food in food_items if sys.argv[1].lower() in food["name"].lower()]
+        if categories is not None:
+            for category in categories:
+                items = category.get("items", [])
+                
+                # Iterate through each item in the category
+                for item in items:
+                    food_item = {
+                        "name": item.get("name"),
+                        "priceInMinorUnit": item.get("priceInMinorUnit"),
+                        "imgHref": item.get("imgHref")
+                    }
+                    food_items.append(food_item)
+            filtered_food_items = [food for food in food_items if sys.argv[1].lower() in food["name"].lower()]
 
-        cuisine = merchant_info.get("cuisine")
-        all_data.append({"ID": merchant_id, "Details": {"Name": name, "Cuisine": cuisine, "Food":filtered_food_items}})
-        count = count + 1
-        time.sleep(1)
+            cuisine = merchant_info.get("cuisine")
+            all_data.append({"ID": merchant_id, "Details": {"Name": name, "Cuisine": cuisine, "Food":filtered_food_items}})
+            count = count + 1
+            time.sleep(1)
     return all_data
 
 def main():
