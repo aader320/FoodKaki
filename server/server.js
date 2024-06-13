@@ -33,11 +33,11 @@ app.post('/api/generateIngredients', async (req, res) => {
           "santan",
           "garlic"
         ]`);
-      console.log('Raw ingredients:', ingredients); // Log raw response
+      //console.log('Raw ingredients:', ingredients); // Log raw response
       
       try {
         const parsedData = JSON.parse(ingredients);
-        console.log('Parsed ingredients:', parsedData); // Log parsed response
+        //console.log('Parsed ingredients:', parsedData); // Log parsed response
         res.send(parsedData); // Send the JSON data back to the client
       } catch (parseError) {
         console.error(`Error parsing JSON: ${parseError}`);
@@ -52,7 +52,7 @@ app.post('/api/generateIngredients', async (req, res) => {
 
 app.post('/api/submitGrab', (req, res) => {
     const { data } = req.body;  // Search query received from client
-    console.log("Received data:", data);
+    //console.log("Received data:", data);
 
     const scriptPath = 'GrabQuery.py';
     exec(`python3 ${scriptPath} "${data}"`, (error, stdout, stderr) => {
@@ -78,7 +78,7 @@ app.post('/api/submitGrab', (req, res) => {
 
 app.post('/api/submitFairPrice', (req, res) => {
     const { data } = req.body;  // Search query received from client
-    console.log("Received data:", data);
+    //console.log("Received data:", data);
  
     const scriptPath = 'FairpriceQuery.py';
     exec(`python3 ${scriptPath} "${data}"`, (error, stdout, stderr) => {
@@ -93,7 +93,7 @@ app.post('/api/submitFairPrice', (req, res) => {
         
         try {
             const parsedData = JSON.parse(stdout);
-            console.log(parsedData);
+            //console.log(parsedData);
             res.send(parsedData); // Send the JSON data back to the client
         } catch (parseError) {
             console.error(`Error parsing JSON from Python script: ${parseParseError}`);
