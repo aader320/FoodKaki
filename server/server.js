@@ -25,7 +25,7 @@ async function GeminiPrompt(prompt) {
 app.post('/api/generateIngredients', async (req, res) => {
     const { inputFoodName } = req.body;
     try {
-      const ingredients = await GeminiPrompt(`Output nothing else except the json data. List me only the ingredients in json format needed to make ${inputFoodName}. e.g: [
+      const ingredients = await GeminiPrompt(`Please provide me with the list of ingredients needed to make ${inputFoodName} in JSON format. Ensure that the list does not include any optional items and that each ingredient is formatted in a way suitable for use as a search query on a supermarket website. Additionally, ensure that the ingredients are listed in their base forms, avoiding any specific preparations such as 'cooked' or 'diced'. If "${inputFoodName}" is not a valid known dish name, return empty JSON data. Output only the json data. Example of output: [
           "rice",
           "coconut milk",
           "pandan leaves",
